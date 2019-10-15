@@ -1,7 +1,6 @@
 import telegraf from 'telegraf'
-import { Pool } from 'pg'
 import { config as config_environment } from 'dotenv'
-import {  } from 'lodash'
+import { testGenesis, getVerse } from './db'
 
 config_environment()
 
@@ -9,24 +8,15 @@ const bot_token = process.env.TG_BOT_TOKEN!
 
 const bot = new telegraf(bot_token)
 
-const pool = new Pool({
-    host: process.env.PGHOST,
-    port: +process.env.PGPORT!,
-    user: process.env.PGUSER,
-    password: process.env.PGPASSWORD,
-    database: process.env.PGDATABASE
+bot.command('test', async (ctx) => {
+    const test_text = await testGenesis();
+    ctx.replyWithHTML(test_text)
 })
 
-bot.hears('test', async (ctx) => {
-    const query = 'SELECT c, v, t from t_sin WHERE id > 1001001 AND id <= 1002000'
-    const genesis_1 = await pool.query(query)
-
-    const text =
-        genesis_1.rows
-        .map((row) => `${row.c}:${row.v}. ${row.t}`)
-        .reduce((acc, next) => acc + next + '\n', '')
-
-    ctx.reply(text)
+bot.use(async (ctx) => {
+    let verse = await getVerse(ctx.message!.text!)
+    if (!verse) { verse = 'Не могу найти указанный стих' }
+    ctx.replyWithHTML(verse)
 })
 
 bot.start((ctx) => ctx.reply('Start Command'))
