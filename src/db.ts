@@ -1,3 +1,4 @@
+import { Intent } from './parser'
 import { Pool } from 'pg'
 
 const pool = new Pool({
@@ -8,7 +9,7 @@ const pool = new Pool({
     database: process.env.PGDATABASE
 })
 
-export async function testGenesis(): Promise<string> {
+export async function test_genesis(): Promise<string> {
     const query = 'SELECT c, v, t from t_sin WHERE id >= 1001001 AND id <= 1002000'
     const genesis_1 = await pool.query(query)
 
@@ -17,6 +18,18 @@ export async function testGenesis(): Promise<string> {
         .reduce((acc, next) => acc + next + '\n', '')
 }
 
-export async function getVerse(raw: string): Promise<string | null> {
-    return null
+export async function get_verse(intent: Intent): Promise<string | 'Стих не найден'> {
+    const query =
+        `SELECT t FROM t_sin
+        WHERE b=(
+            SELECT book_id FROM key_abbreviations
+            WHERE abbr=LOWER('${intent.book}')
+        )
+        AND c='${intent.chapter}'
+        AND v='${intent.verse}'`
+    const result = await pool.query(query)
+    if (result.rows[0] && result.rows[0].t) {
+        return result.rows[0].t
+    }
+    return 'Стих не найден'
 }

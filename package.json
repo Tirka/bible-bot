@@ -1,16 +1,16 @@
 {
   "name": "bible-bot2",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "license": "MIT",
   "private": true,
   "scripts": {
-    "dev": "nodemon -e ts --watch src --exec ts-node src/index.ts"
+    "dev": "nodemon -e ts,env --watch src --exec ts-node src/index.ts"
   },
   "dependencies": {
-    "dotenv": "^8.1.0",
+    "dotenv": "^8.2.0",
     "lodash": "^4.17.15",
     "pg": "^7.12.1",
-    "telegraf": "^3.32.0"
+    "telegraf": "^3.33.0"
   },
   "devDependencies": {
     "nodemon": "^1.19.3",
