@@ -9,15 +9,15 @@
   "dependencies": {
     "dotenv": "^8.2.0",
     "lodash": "^4.17.15",
-    "pg": "^7.12.1",
-    "telegraf": "^3.33.0"
+    "pg": "^7.14.0",
+    "telegraf": "^3.33.3"
   },
   "devDependencies": {
-    "nodemon": "^1.19.4",
-    "ts-node": "^8.4.1",
-    "typescript": "^3.6.4",
-    "@types/dotenv": "^6.1.1",
-    "@types/lodash": "^4.14.144",
+    "nodemon": "^2.0.1",
+    "ts-node": "^8.5.2",
+    "typescript": "^3.7.2",
+    "@types/dotenv": "^8.2.0",
+    "@types/lodash": "^4.14.149",
     "@types/pg": "^7.11.2"
   }
 }
